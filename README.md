@@ -45,83 +45,6 @@ QuorumBridge.exe state
 QuorumBridge.exe exec script.lua
 
 
-# Console Bridge (C#)
-
-- Target: .NET 8.0
-- Type: Console Application
-- Architecture: x64
-"
-" using System;
-using System.IO;
-using QuorumAPI;
-// Please Give Credits To me and For The QuorumAPI 
-namespace BCInjection
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            if (args.Length == 0)
-                return;
-
-            switch (args[0].ToLower())
-            {
-                case "autoupdate":
-                    QuorumQuorumAPI.AutoUpdate();
-                    Console.WriteLine("AutoUpdate completed.");
-                    break;
-
-                case "attach":
-                    QuorumAPI.AttachAPI();
-                    Console.WriteLine("Attach called.");
-                    break;
-
-                case "attach_state":
-                    int attachResult = QuorumAPI.AttachAPIWithState();
-                    Console.WriteLine(attachResult == 1 ? "Attached" : "Attach failed");
-                    break;
-
-                case "state":
-                    int state = QuorumAPI.GetAttachState();
-                    Console.WriteLine(state == 1 ? "Attached" : "Not attached");
-                    break;
-
-                case "exec":
-                    // Execution currently unreliable (WIP)
-                    if (args.Length < 2)
-                        return;
-
-                    string script = File.ReadAllText(args[1]);
-                    QuorumAPI.ExecuteScript(script);
-                    Console.WriteLine("Execution requested.");
-                    break;
-            }
-        }
-    }
-  
-
-
-# Keep in mind This is My Batch Script You Could Modify it
-
-@echo off
-cd Data
-title  Batch Executor QuorumAPI - BaconRoaster
-setlocal EnableDelayedExpansion
-
-echo choose with Numbers:
-echo 1. Attach
-echo 2. Executue Script
-set /p Input=Choose:
-if %Input% EQU 1 goto attach
-if %Input% EQU 2 goto exec
-:attach
-pause
-set /p "script=Type your script: "
-> temp.lua echo(!script!
-QuasarBridge.exe attach
-QuasarBridge.exe exec temp.lua
-pause
-
 # Known Limitations
 
 - Script execution is unreliable and may not execute even when reported as successful
@@ -148,3 +71,13 @@ pause
 
 This project is provided for educational and experimental purposes only.
 The author assumes no responsibility for misuse.
+
+
+
+Console Bridge (C#)
+
+Target: .NET 8.0
+Type: Console Application
+Architecture: x64
+
+
