@@ -50,8 +50,8 @@ QuorumBridge.exe exec script.lua
 - Target: .NET 8.0
 - Type: Console Application
 - Architecture: x64
-
-using System;
+"
+" using System;
 using System.IO;
 using QuorumAPI;
 // Please Give Credits To me and For The QuorumAPI 
@@ -98,7 +98,7 @@ namespace BCInjection
             }
         }
     }
-}
+  
 
 
 # Keep in mind This is My Batch Script You Could Modify it
