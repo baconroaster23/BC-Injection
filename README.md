@@ -73,7 +73,6 @@ This project is provided for educational and experimental purposes only.
 The author assumes no responsibility for misuse.
 
 
-
 Console Bridge (C#)
 
 Target: .NET 8.0
@@ -81,3 +80,8 @@ Type: Console Application
 Architecture: x64
 
 
+
+
+-- discord: baconroaster23
+-- Credits To QuasarAPI
+-- Scripts and Everything is on the Repo 
