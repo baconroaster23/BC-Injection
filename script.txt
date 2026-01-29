@@ -1,77 +1,80 @@
 using System;
 using System.IO;
-using QuorumAPI;
+using QuorumAPI
 
-// Credits:
-// - BC-Injection by BaconRoaster
-// - QuorumAPI authors
+// Credits To The API Owners (QuorumAPI)
+// Credits To BaconRoaster
 
-namespace BCInjection
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        if (args.Length == 0)
         {
-            if (args.Length == 0)
-                return;
+            Console.WriteLine("No command.");
+            return;
+        }
 
-            switch (args[0].ToLower())
-            {
-                case "autoupdate":
-                    QuorumQuorumAPI.AutoUpdate();
-                    Console.WriteLine("AutoUpdate completed.");
-                    break;
+        switch (args[0].ToLower())
+        {
+            case "autoupdate":
+                QuorumAPI.QuorumAPI.AutoUpdate();
+                Console.WriteLine("AutoUpdate done.");
+                break;
 
-                case "attach":
-                    QuorumAPI.AttachAPI();
-                    Console.WriteLine("Attach called.");
-                    break;
+            case "attach":
+                QuorumAPI.QuorumAPI.AttachAPI();
+                Console.WriteLine("Attach called.");
+                break;
 
-                case "attach_state":
-                    int attachResult = QuorumAPI.AttachAPIWithState();
-                    Console.WriteLine(attachResult == 1 ? "Attached" : "Attach failed");
-                    break;
+            case "attach_state":
+                int attachResult = QuorumAPI.QuorumAPI.AttachAPIWithState();
+                Console.WriteLine(attachResult == 1 ? "Attached" : "Attach failed");
+                break;
 
-                case "state":
-                    int state = QuorumAPI.GetAttachState();
-                    Console.WriteLine(state == 1 ? "Attached" : "Not attached");
-                    break;
+            case "state":
+                int state = QuorumAPI.QuorumAPI.GetAttachState();
+                Console.WriteLine(state == 1 ? "Attached" : "Not attached");
+                break;
 
-                case "exec":
-                    // Execution currently unreliable (WIP)
-                    if (args.Length < 2)
-                        return;
+            case "exec":
+                if (args.Length < 2)
+                {
+                    Console.WriteLine("Missing script file.");
+                    return;
+                }
 
-                    string script = File.ReadAllText(args[1]);
-                    QuorumAPI.ExecuteScript(script);
-                    Console.WriteLine("Execution requested.");
-                    break;
-            }
+                string script = File.ReadAllText(args[1]);
+                QuorumAPI.QuorumAPI.ExecuteScript(script);
+                Console.WriteLine("Script executed.");
+                break;
+
+            case "kill":
+                QuorumAPI.QuorumAPI.KillRoblox();
+                Console.WriteLine("Roblox killed.");
+                break;
+
+            case "autoinject":
+                bool enable = args.Length > 1 && args[1] == "1";
+                QuorumAPI.QuorumAPI.SetAutoInject(enable);
+                Console.WriteLine("AutoInject set: " + enable);
+                break;
+
+            case "setlevel":
+                if (args.Length < 2) return;
+                QuorumAPI.QuorumAPI.SetLevel(args[1]);
+                Console.WriteLine("Level set.");
+                break;
+
+            case "notify":
+                if (args.Length < 3) return;
+                QuorumAPI.SetAttachNotify(args[1], args[2]);
+                Console.WriteLine("Notify set.");
+                break;
+
+            default:
+                Console.WriteLine("Unknown command.");
+                break;
         }
     }
 }
-
-Batch Script (BC‑Injection Controller)
-@echo off
-cd Data
-title Batch Executor QuorumAPI - BaconRoaster
-setlocal EnableDelayedExpansion
-
-echo choose with Numbers:
-echo 1. Attach
-echo 2. Execute Script
-set /p Input=Choose:
-
-if "%Input%"=="1" goto attach
-if "%Input%"=="2" goto exec
-
-:attach
-QuasarBridge.exe attach
-pause
-goto :eof
-
-:exec
-set /p "script=Type your script: "
-> temp.lua echo(!script!
-QuasarBridge.exe exec temp.lua
-pause
