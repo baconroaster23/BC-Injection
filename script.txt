@@ -78,3 +78,26 @@ class Program
         }
     }
 }
+
+
+-- batch Script 
+
+
+@echo off
+cd Data
+title  Batch Executor QuorumAPI - BaconRoaster
+setlocal EnableDelayedExpansion
+
+echo choose with Numbers:
+echo 1. Attach
+echo 2. Executue Script
+set /p Input=Choose:
+if %Input% EQU 1 goto attach
+:attach
+pause
+set /p "script=Type your script: "
+> temp.lua echo(!script!
+QuasarBridge.exe attach
+QuasarBridge.exe exec temp.lua
+pause
+
