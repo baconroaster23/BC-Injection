@@ -1,0 +1,77 @@
+using System;
+using System.IO;
+using QuorumAPI;
+
+// Credits:
+// - BC-Injection by BaconRoaster
+// - QuorumAPI authors
+
+namespace BCInjection
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            if (args.Length == 0)
+                return;
+
+            switch (args[0].ToLower())
+            {
+                case "autoupdate":
+                    QuorumQuorumAPI.AutoUpdate();
+                    Console.WriteLine("AutoUpdate completed.");
+                    break;
+
+                case "attach":
+                    QuorumAPI.AttachAPI();
+                    Console.WriteLine("Attach called.");
+                    break;
+
+                case "attach_state":
+                    int attachResult = QuorumAPI.AttachAPIWithState();
+                    Console.WriteLine(attachResult == 1 ? "Attached" : "Attach failed");
+                    break;
+
+                case "state":
+                    int state = QuorumAPI.GetAttachState();
+                    Console.WriteLine(state == 1 ? "Attached" : "Not attached");
+                    break;
+
+                case "exec":
+                    // Execution currently unreliable (WIP)
+                    if (args.Length < 2)
+                        return;
+
+                    string script = File.ReadAllText(args[1]);
+                    QuorumAPI.ExecuteScript(script);
+                    Console.WriteLine("Execution requested.");
+                    break;
+            }
+        }
+    }
+}
+
+Batch Script (BC‑Injection Controller)
+@echo off
+cd Data
+title Batch Executor QuorumAPI - BaconRoaster
+setlocal EnableDelayedExpansion
+
+echo choose with Numbers:
+echo 1. Attach
+echo 2. Execute Script
+set /p Input=Choose:
+
+if "%Input%"=="1" goto attach
+if "%Input%"=="2" goto exec
+
+:attach
+QuasarBridge.exe attach
+pause
+goto :eof
+
+:exec
+set /p "script=Type your script: "
+> temp.lua echo(!script!
+QuasarBridge.exe exec temp.lua
+pause
