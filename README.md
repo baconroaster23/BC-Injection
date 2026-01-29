@@ -83,5 +83,5 @@ Architecture: x64
 
 
 -- discord: baconroaster23
--- Credits To QuasarAPI
+-- Credits To QuorumAPI
 -- Scripts and Everything is on the Repo 
